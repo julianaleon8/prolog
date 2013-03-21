@@ -1,12 +1,12 @@
 head([L|_],L).
 pertenece_letra([],_).
-pertenece_letra([L | LS],Alfa):-
+pertenece_letra([L|LS],Alfa):-
     member(L,Alfa),
     pertenece_letra(LS,Alfa).
-
+    
 pertenece_palabras([],_).
-pertenece_palabras([_|_],[]):-false.
-pertecene_palabras([L | LS],Alfa):-
+    % pertenece_palabras([_|_],[]):-false.
+pertecene_palabras([L|LS],Alfa):-
     atom_chars(L,Letras),
     pertenece_letra(Letras,Alfa),
     pertenece_palabras(LS,Alfa).

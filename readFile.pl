@@ -16,7 +16,11 @@ cargarListaPalabra(Archivo):-
     open(Archivo,read,Str1),
     read(Str1,Palabras),
     write([Palabras]), nl.
-    
+
+sopaLetra(Alfa,Tam,Acep,Rech):-
+    lentgh(Z),
+
+ 
 main :- 
     open('prueba',read,Str),
     read(Str,Tamano),

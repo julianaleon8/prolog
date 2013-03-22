@@ -89,71 +89,59 @@ sub_set([L|Pa],[L|Ls],Palabra):-
 
 % Llena una lista con todas las letras del alfabeto 
 
-llenaSopa([],_).
-llenaSopa([H|T],N):-
+llenaFila([],_).
+llenaFila([H|T],N):-
     N > 0,
     N1 is N - 1,
     lista(H),
-    llenaSopa(T,N1).
+    llenaFila(T,N1).
 
-% Genera un tablero vacio en forma de lista
-generaTablero(X,Tam):-
-    N is Tam * Tam,
-    length(X,N),
-    llenaSopa(X,N).
 
-% Pasa de lista a lista de listas
+generaFilas([],_).
+generaFilas([H|T],Tam):-
+    f(H,Tam),
+    generaFilas(T,Tam).
 
-    
-    
-% Las letras del alfabeto son hechos
+f(Lista,Tam):-
+    length(Lista,Tam),
+    llenaFila(Lista,Tam).
+
+crea_tablero(X,Tam):-
+    length(X,Tam),
+    generaFilas(X,Tam).
 
 factSopa([]).
 factSopa([H|T]):-
     assert(lista(H)),
     factSopa(T).
-   
-
-
-generaListaDiagonales(Tam,Lista):-
-    N is (2 * Tam) - 1,
-    length(Lista,N).    
-
-listaDiagonales([H|T],Tam,Lista):-
-    
-
-split(L,0,[],L).
-split([H|T],N,[H|T1],T2) :- 
-    N > 0, 
-    N1 is N - 1, 
-    split(T,N1,T1,T2).
-
-
-llena([],_,_).
-llena([H|T],Y,Tam):-
-    Tam > 0,
-    N1 is Tam - 1,
-    llenaFila(H,Y),
-    llena(T,Y,N1).
     
     
 main :- 
+    open('prueba',read,Str),
+    read(Str,Tamano),
+    read(Str,Alfabeto),
+     read(Str,Rechazadas),
+    close(Str),
+  
+    cargarListaPalabra(Aceptadas),
+    write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl.
+
 %open('prueba',read,Str),
-	write('Tamano ?'),
-	read(Tamano),
-	nl,
-	write('Alfabeto ?'),
-	read(Alfabeto),
-	nl,
-	write('Aceptadas ?'),	
-	read(Aceptadas),
-	nl,
-	write('Rechazadas ?'),	
-	read(Rechazadas),
-	%close(Str),
-	cargarListaPalabra(Aceptadas,Alfabeto),
-	% Hay que llamar a generar sopa 
-	% El comando MAS o no 
-	%read(Comando),
+%	write('Tamano ?'),
+%	read(Tamano),
+%	nl,
+%	write('Alfabeto ?'),
+%	read(Alfabeto),
+%	nl,
+%	write('Aceptadas ?'),	
+%	read(Aceptadas),
+%	nl,
+%	write('Rechazadas ?'),	
+%	read(Rechazadas),
+%	%close(Str),
+%	cargarListaPalabra(Aceptadas,Alfabeto),
+%	% Hay que llamar a generar sopa 
+%	% El comando MAS o no 
+%	%read(Comando),
 	
-	write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl.
+%	write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl.

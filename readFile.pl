@@ -22,12 +22,10 @@ permuta(X,[H|T]):-
 
 % Llena una lista con todas las letras del alfabeto 
 
-llenaFila([],_).
-llenaFila([H|T],N):-
-    N > 0,
-    N1 is N - 1,
+llenaFila([]).
+llenaFila([H|T]):-
     lista(H),
-    llenaFila(T,N1).
+    llenaFila(T).
 
 % Genera un tablero vacio en forma de lista
 generaTablero(X,Tam):-
@@ -35,14 +33,18 @@ generaTablero(X,Tam):-
     length(X,N),
     llenaFila(X,N).
 
-
+generaFilas([],_).
 generaFilas([H|T],Tam):-
-    length(H,Tam),
+    f(H,Tam),
     generaFilas(T,Tam).
 
 f(Lista,Tam):-
-    length(Lista,Tam).
-    % llenaFila(Lista,Tam).
+    length(Lista,Tam),
+    llenaFila(Lista).
+
+crea_tablero(X,Tam):-
+    length(X,Tam),
+    generaFilas(X,Tam).
     
     
 % Las letras del alfabeto son hechos
@@ -52,6 +54,7 @@ factSopa([H|T]):-
     assert(lista(H)),
     factSopa(T).
    
+
 
 % generaSopa(Alfabeto,Tam):-
 %    length(X,Tam),

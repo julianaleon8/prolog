@@ -210,43 +210,6 @@ verificar_todo_acep(Tablero,[A|Cepta],Tam):-
 
 %verificar_palabras(Palabras,Tablero)
     
-<<<<<<< HEAD
-ver_diag([],_).
-ver_diag([A|Ceptadas],Diagonales):-
-    verifica_Diagonales(Diagonales,A),
-    ver_diag(Ceptadas,Diagonales).
-
-main :- 
-    
-    open('prueba',read,Str),
-    write('Tamano ?'),
-    read(Tamano),
-    nl,
-    write('Alfabeto ?'),
-    read(Alfabeto),
-    nl,
-    write('Aceptadas ?'),	
-    read(Aceptadas),
-    nl,
-    write('Rechazadas ?'),	
-    read(Rechazadas),
-    close(Str),
-    cargarListaPalabra(Aceptadas,Alfabeto),
-    write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl,
-    factSopa(Alfabeto),
-    crea_tablero(Tablero,Tamano),
-    crea_listaDiag(Tablero,Diagonales,Tamano),
-    ver_diag(Tablero,Tamano,Aceptadas,Diagonales).
-    
-
-
-
-    % Hay que llamar a generar sopa 
-    % El comando MAS o no 
-    %read(Comando),
-
-    
-=======
 %% main :- 
 %%     open('prueba',read,Str),
 %%     read(Str,Tamano),
@@ -283,4 +246,3 @@ main :-
 	%read(Comando),
 	
 	%write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl.
->>>>>>> 3358693cc996cc996169274781e12a70d7e7032f

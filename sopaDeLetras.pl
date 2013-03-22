@@ -25,7 +25,7 @@ pertenece_palabras([L|LS],Alfa):-
 	pertenece_palabras(LS,Alfa).
 
 % cargarListaPalabra('aceptadas.txt', [o,h,l,a,c]).
-cargarListaPalabra(Archivo,Alfa):-
+cargarListaPalabra(Archivo,Alfa,Palabras):-
 	open(Archivo,read,Str1),
 	read(Str1,Palabras),
 	write([Palabras]), nl,
@@ -67,7 +67,7 @@ diagonales(I,J,Tam,Sopa,Diagonal,N):-
 	ListaAc is I + J,
 	nth0(I, Sopa, X),
 	nth0(J, X, Elem),
-	
+
 	AuxJ is J + 1,
 	diagonales(I,AuxJ,Tam,Sopa,Resto,N),
 	Diagonal = [Elem|Resto].
@@ -89,21 +89,20 @@ verifica_diago(Palabra,Tablero,Tam):-
 	%nth1(Nu,Lista,Elem),
 	verifica_Diagonales(Lista,Palabra).
 
-
 verifica_Diagonales1(Tablero,Palabra,Tam):-
 	crea_listaDiag1(Tablero,Lista,Tam),
 	verifica_filas(Palabra,Lista).
 
+
 verifica_Diagonales(Tablero,Palabra,Tam):-
 	crea_listaDiag(Tablero,Lista,Tam),
 	verifica_filas(Palabra,Lista).
-	
+
 
 % verifica si la palabra esta en alguna de las columnas
 verifica_columnas(Y,Tablero):-
 	lista_columnas(Tablero,Lista),
 	verifica_filas(Y,Lista).
-
 % verifica si la palabra esta en algunas de las filas
 
 verifica_filas(Y,[Ta|Blero]):-
@@ -124,14 +123,14 @@ sub_secuencia([S|Opa], H,Palabra):-
 sub_set(_,[],_).
 
 sub_set([Y|YY],[Y|YS],Palabra):-
-	
+
 	sub_set(YY,YS,Palabra).
 
 sub_set([S|SS],[L|Ls],P):-
 	write(S),
 	sub_secuencia(SS,P,P).
 %sub_set([Y|Pa],Y,Palabra).
-	
+
 % Llena una lista con todas las letras del alfabeto 
 
 llenaFila([],_).
@@ -170,17 +169,11 @@ imprime([H|T]):-
     write(' '),
     imprime(T).
 
-<<<<<<< HEAD
 mostrarSopa([]).
-mostrarSopa([H|T]):-
-    imprime(H),
+mostrarSopa([Ta|Blero]):-
+    imprime(Ta),
     write('\n'),
-    mostrarSopa(T).
-=======
-mostrarSopa(X,Y):-
-    imprime(X),
-    nl,
-    imprime(Y).
+    mostrarSopa(Blero).
 
 verifica_filas_rever(Y,[Ta|Blero]):-
 	atom_chars(Y,Z),
@@ -191,22 +184,15 @@ verifica_filas_rever(Y,[Ta|Blero]):-
 verificar_todo_acep(Tablero,[],Tam).
 verificar_todo_acep(Tablero,[A|Cepta],Tam):-
 	(verifica_filas(A,Tablero);
-<<<<<<< HEAD
-	  verifica_columnas(A,Tablero);
-	  verifica_Diagonales(Tablero,A,Tam)),
-	verificar_todo_acep(Tablero,Cepta,Tam).
->>>>>>> 3358693cc996cc996169274781e12a70d7e7032f
-=======
 	    verifica_columnas(A,Tablero);
 	    verifica_Diagonales(Tablero,A,Tam);
 	    verifica_Diagonales1(Tablero,A,Tam)),
 	    verificar_todo_acep(Tablero,Cepta,Tam).
->>>>>>> d5a31d3066f6e385f01e0f2699c8f0df6f2db1f8
 
 %verifica_palabra(PaLabra,Tablero,Tam,N):-
 %	NO is N +1, 
 %	verifica_fila(Palabra,Tablero,NO),
-	
+
 
 %verificar_palabras(Palabras,Tablero)
     
@@ -220,29 +206,42 @@ verificar_todo_acep(Tablero,[A|Cepta],Tam):-
 %%     cargarListaPalabra(Aceptadas),
 %%     write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl.
 
+verifica_e_imprime(Tablero,Acepta,Tamano):-
+    verificar_todo_acep(Tablero,Acepta,Tamano),
+    mostrarSopa(Tablero). 
+
+sopaLetra(Alfabeto,Tablero,Tamano,Aceptadas):-
+    
+    factSopa(Alfabeto),
+    crea_tablero(Tablero,Tamano),
+    verifica_e_imprime(Tablero,Aceptadas,Tamano).
+
 main :-
-	open('prueba',read,Str),
-	write('Tamano ?'),
-	read(Tamano),
-	nl,
-	write('Alfabeto ?'),
-	read(Alfabeto),
-	nl,
-	write('Aceptadas ?'),	
-	read(Aceptadas),
-	nl,
-	write('Rechazadas ?'),	
-	read(Rechazadas),
+    
+    write('Tamano ?'),
+    read(Tamano),
+    nl,
+    write('Alfabeto ?'),
+    read(Alfabeto),
+    nl,
+    write('Aceptadas ?'),	
+    read(Aceptadas),
+    nl,
+    write('Rechazadas ?'),	
+    read(Rechazadas),
+    cargarListaPalabra(Aceptadas,Alfabeto,PalabrasAcep),
+    sopaLetra(Alfabeto,Tablero,Tamano,PalabrasAcep).
+
 	%close(Str),
-	%cargarListaPalabra(Aceptadas,Alfabeto),
-	write('Introduzca Comando'),
-	read(Dato),
-	Dato = mas,
-	write('hola'),
-	fail.
+	
+	%write('Introduzca Comando'),
+	%read(Dato),
+	%Dato = mas,
+	%write('hola'),
+	%fail.
 	%mas(Dato,X),
 	% Hay que llamar a generar sopa 
 	% El comando MAS o no 
 	%read(Comando),
-	
+
 	%write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl.

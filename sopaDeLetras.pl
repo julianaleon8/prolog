@@ -89,6 +89,11 @@ verifica_diago(Palabra,Tablero,Tam):-
 	%nth1(Nu,Lista,Elem),
 	verifica_Diagonales(Lista,Palabra).
 
+
+verifica_Diagonales1(Tablero,Palabra,Tam):-
+	crea_listaDiag1(Tablero,Lista,Tam),
+	verifica_filas(Palabra,Lista).
+
 verifica_Diagonales(Tablero,Palabra,Tam):-
 	crea_listaDiag(Tablero,Lista,Tam),
 	verifica_filas(Palabra,Lista).
@@ -103,7 +108,9 @@ verifica_columnas(Y,Tablero):-
 
 verifica_filas(Y,[Ta|Blero]):-
 	atom_chars(Y,X),
-	(sub_secuencia(Ta,X,X);
+	reverse(X,Z),
+	(sub_secuencia(Ta,Z,Z);
+	(sub_secuencia(Ta,X,X));
 	    verifica_filas(Y,Blero)).
 
 
@@ -174,13 +181,27 @@ mostrarSopa(X,Y):-
     imprime(X),
     nl,
     imprime(Y).
+
+verifica_filas_rever(Y,[Ta|Blero]):-
+	atom_chars(Y,Z),
+	reverse(Z,X),
+	(sub_secuencia(Ta,X,X);
+	    verifica_filas(X,Blero)).
+
 verificar_todo_acep(Tablero,[],Tam).
 verificar_todo_acep(Tablero,[A|Cepta],Tam):-
 	(verifica_filas(A,Tablero);
+<<<<<<< HEAD
 	  verifica_columnas(A,Tablero);
 	  verifica_Diagonales(Tablero,A,Tam)),
 	verificar_todo_acep(Tablero,Cepta,Tam).
 >>>>>>> 3358693cc996cc996169274781e12a70d7e7032f
+=======
+	    verifica_columnas(A,Tablero);
+	    verifica_Diagonales(Tablero,A,Tam);
+	    verifica_Diagonales1(Tablero,A,Tam)),
+	    verificar_todo_acep(Tablero,Cepta,Tam).
+>>>>>>> d5a31d3066f6e385f01e0f2699c8f0df6f2db1f8
 
 %verifica_palabra(PaLabra,Tablero,Tam,N):-
 %	NO is N +1, 

@@ -132,18 +132,6 @@ lista_diagonales(Entrada,[H|T],Tam):-
     diagonales(0,0,Tam,Entrada,H,Tam),
     lista_diagonales(Entrada,T,N1).
 
-generaTablero(X,Tam):-
-    N is Tam * Tam,
-    length(X,N),
-    llenaFila(X,N).
-
-
-factSopa2([],[]).
-factSopa2([H|T],[H1|T1]):-
-    assert(lista2(H)),
-    H1 = lista2(H),
-    factSopa2(T,T1).
-
 imprime([]).
 imprime([H|T]):- 
     write(H),

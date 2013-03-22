@@ -31,19 +31,29 @@ cargarListaPalabra(Archivo,Alfa):-
 	write([Palabras]), nl,
 	pertenece_palabras(Palabras,Alfa).
 
+crea_listaDiag1(Entrada,Lista,Tam):-
+	reverse(Entrada,Aux),
+	N is (2 * Tam) - 1,
+	length(Lista,N),
+	lista_diagonales(Aux,Lista,N),
+	!.
+
+crea_listaDiag(Entrada,Lista,Tam):-
+	N is (2 * Tam) - 1,
+	length(Lista,N),
+	lista_diagonales(Entrada,Lista,N),
+	!.
+
+lista_diagonales(_,_,0).
+lista_diagonales(Entrada,[H|T],Tam):-
+	Tam > 0,
+	N1 is Tam - 1,
+	diagonales(0,0,Tam,Entrada,H,Tam),
+	lista_diagonales(Entrada,T,N1).
 
 lista_columnas(Sopa,Lista):-
 	transpose(Sopa,Lista).
 
-% lista_diagonalesPosi(Sopa,Tam,Lista,Tam).
-% lista_diagonalesPosi(Sopa,N,Lista,Tam):-
-
-
-%lista_diagonalesNega(Sopa,Tam,Lista,Tam).
-%lista_diagonalesNega(Sopa,N,Lista,Tam):-	
-%	AuxN is N +1,
-%	diagonales(0,0,Tam,Sopa,Lista,AuxN),
-%	lista_diagonalesNega(Sopa,N,[Lista],Tam).	
 % Esta es la que usaras para pegar las diagonales el resultado lo guarda en 5 argumento "Diagonal"
 % diagonales(0,0,2,[[a,b],[c,d]],X,2).
 diagonales(Tam,J,Tam,Sopa,[],N).
@@ -65,12 +75,38 @@ diagonales(I,J,Tam,Sopa,Diagonal,N):-
 diagonales(I,J,Tam,Sopa,Diagonal,N):-
 	AuxJ is J + 1,
 	diagonales(I,AuxJ,Tam,Sopa,Diagonal,N).
+% verifica que una palabra este en una de las diagonales
+verifica_diago1(Palabra,Tablero,N,Tam):-
+	Nu is N+1,
+	crea_listaDiag1(Tablero,Lista,Tam),
+	nth1(Nu,Lista,Elem),
+	pertenece_palabras(Palabra,Elem),!.
+% verifica que una palabra este en una de las diagonales
 
-%verificar_Aceptadas([So|Pa],Aceptadas,Tam):-
-%	%atom_chars(So,Fila),
-%	pertenece_palabras(Aceptadas,So),
-%	!,
-%	verificar_Aceptadas(Pa,Aceptadas,Tam).
+verifica_diago(Palabra,Tablero,Tam):-
+	%Nu is N+1,
+	crea_listaDiag(Tablero,Lista,Tam),
+	%nth1(Nu,Lista,Elem),
+	verifica_Diagonales(Lista,Palabra).
+
+
+verifica_Diagonales(Lista,[Pa|Labras]):-
+	pertenece_palabras(Pa,Lista),
+	verigica_Diagonales(Lista,Labras).
+	
+
+% verifica si la palabra esta en alguna de las columnas
+verifica_columnas(Palabra,Tablero):-
+	lista_columnas(Tablero,[L|Lista]),
+	(pertenece_palabras(Palabra,L);
+	verifica_columna(Palabra,Lista)).
+
+% verifica si la palabra esta en algunas de las filas
+
+verifica_filas(Palabra,[Ta|Blero]):-
+	(pertenece_palabras(Palabra,Ta);
+	verifica_fila(Palabra,Blero)).
+
 
 % Palabra es la lista de letras de la palabra
 sub_secuencia(_,[],_).
@@ -119,19 +155,6 @@ factSopa([H|T]):-
 
 % Esto es lo que vas a usar para obtener la lista de diagonales. Entrada es la lista de listas que pasas en diagonales, Lista es la lista donde vas a devolver tus diagonales, y Tam es el tamano de Entrada.
 
-crea_listaDiag(Entrada,Lista,Tam):-
-    N is (2 * Tam) - 1,
-    length(Lista,N),
-    lista_diagonales(Entrada,Lista,N),
-    !.
-
-lista_diagonales(_,_,0).
-lista_diagonales(Entrada,[H|T],Tam):-
-    Tam > 0,
-    N1 is Tam - 1,
-    diagonales(0,0,Tam,Entrada,H,Tam),
-    lista_diagonales(Entrada,T,N1).
-
 imprime([]).
 imprime([H|T]):- 
     write(H),
@@ -142,7 +165,12 @@ mostrarSopa(X,Y):-
     imprime(X),
     nl,
     imprime(Y).
-    
+%verifica_palabra(PaLabra,Tablero,Tam,N):-
+%	NO is N +1, 
+%	verifica_fila(Palabra,Tablero,NO),
+	
+
+%verificar_palabras(Palabras,Tablero)
     
 main :- 
     open('prueba',read,Str),

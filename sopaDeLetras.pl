@@ -89,11 +89,10 @@ verifica_diago(Palabra,Tablero,Tam):-
 	%nth1(Nu,Lista,Elem),
 	verifica_Diagonales(Lista,Palabra).
 
-
-verifica_Diagonales(_,[]).
 verifica_Diagonales([H|T],Palabra):-
-    (pertenece_palabras(Palabra,H);
-    verifica_Diagonales(T,Palabra)).
+    atom_chars(Palabra,X),
+    (sub_secuencia(H,X,X);
+    verifica_Diagonales(Palabra,T)).
 
 
 % verifica si la palabra esta en alguna de las columnas
@@ -181,39 +180,33 @@ mostrarSopa([H|T]):-
 
 %verificar_palabras(Palabras,Tablero)
     
-ver_diag(Tablero,Tamano,Aceptadas):-
-    crea_listaDiag(Tablero,Diagonales,Tamano),
-    verifica_Diagonales(Diagonales,Aceptadas).
+ver_diag([],_).
+ver_diag([A|Ceptadas],Diagonales):-
+    verifica_Diagonales(Diagonales,A),
+    ver_diag(Ceptadas,Diagonales).
+
 main :- 
     
-%open('prueba',read,Str),
- %   write('Tamano ?'),
-  %  read(Tamano),
-   % nl,
-   % write('Alfabeto ?'),
-   % read(Alfabeto),
-   % nl,
-   % write('Aceptadas ?'),	
-   % read(Aceptadas),
-   % nl,
-   % write('Rechazadas ?'),	
-   % read(Rechazadas),
-    %close(Str),
-   % cargarListaPalabra(Aceptadas,Alfabeto),
-    
     open('prueba',read,Str),
-    read(Str,Tamano),
-    read(Str,Alfabeto),
-    read(Str,Aceptadas),
-    read(Str,Rechazadas),
+    write('Tamano ?'),
+    read(Tamano),
+    nl,
+    write('Alfabeto ?'),
+    read(Alfabeto),
+    nl,
+    write('Aceptadas ?'),	
+    read(Aceptadas),
+    nl,
+    write('Rechazadas ?'),	
+    read(Rechazadas),
     close(Str),
-  
     cargarListaPalabra(Aceptadas,Alfabeto),
     write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl,
     factSopa(Alfabeto),
     crea_tablero(Tablero,Tamano),
-    ver_diag(Tablero,Tamano,Aceptadas).
-		
+    crea_listaDiag(Tablero,Diagonales,Tamano),
+    ver_diag(Tablero,Tamano,Aceptadas,Diagonales).
+    
 
 
 

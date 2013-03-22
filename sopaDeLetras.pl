@@ -106,6 +106,8 @@ f(Lista,Tam):-
     length(Lista,Tam),
     llenaFila(Lista,Tam).
 
+% Esto crea el tablero y como lista de listas. Antes de hacer eso deberias llamar a factSopa([a,b,c,d]) o lo que quieras como alfabeto, y luego haces crea_tablero(X,Tam), donde Tam es el tamano de las filas y X es unavariable sin instanciar, donde se va a guardar el tablero.
+
 crea_tablero(X,Tam):-
     length(X,Tam),
     generaFilas(X,Tam).
@@ -114,7 +116,9 @@ factSopa([]).
 factSopa([H|T]):-
     assert(lista(H)),
     factSopa(T).
- 
+
+% Esto es lo que vas a usar para obtener la lista de diagonales. Entrada es la lista de listas que pasas en diagonales, Lista es la lista donde vas a devolver tus diagonales, y Tam es el tamano de Entrada.
+
 crea_listaDiag(Entrada,Lista,Tam):-
     N is (2 * Tam) - 1,
     length(Lista,N),

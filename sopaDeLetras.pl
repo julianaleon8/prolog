@@ -90,16 +90,17 @@ verifica_diago(Palabra,Tablero,Tam):-
 	verifica_Diagonales(Lista,Palabra).
 
 
-verifica_Diagonales(Lista,[Pa|Labras]):-
-	pertenece_palabras(Pa,Lista),
-	verigica_Diagonales(Lista,Labras).
-	
+verifica_Diagonales(_,[]).
+verifica_Diagonales([H|T],Palabra):-
+    (pertenece_palabras(Palabra,H);
+    verifica_Diagonales(T,Palabra)).
+
 
 % verifica si la palabra esta en alguna de las columnas
 verifica_columnas(Palabra,Tablero):-
-	lista_columnas(Tablero,[L|Lista]),
-	(pertenece_palabras(Palabra,L);
-	verifica_columna(Palabra,Lista)).
+    lista_columnas(Tablero,[L|Lista]),
+    (pertenece_palabras(Palabra,L);
+    verifica_columna(Palabra,Lista)).
 
 % verifica si la palabra esta en algunas de las filas
 
@@ -161,10 +162,12 @@ imprime([H|T]):-
     write(' '),
     imprime(T).
 
-mostrarSopa(X,Y):-
-    imprime(X),
-    nl,
-    imprime(Y).
+mostrarSopa([]).
+mostrarSopa([H|T]):-
+    imprime(H),
+    write('\n'),
+    mostrarSopa(T).
+
 %verifica_palabra(PaLabra,Tablero,Tam,N):-
 %	NO is N +1, 
 %	verifica_fila(Palabra,Tablero,NO),
@@ -172,32 +175,44 @@ mostrarSopa(X,Y):-
 
 %verificar_palabras(Palabras,Tablero)
     
+ver_diag(Tablero,Tamano,Aceptadas):-
+    crea_listaDiag(Tablero,Diagonales,Tamano),
+    verifica_Diagonales(Diagonales,Aceptadas).
 main :- 
+    
+%open('prueba',read,Str),
+ %   write('Tamano ?'),
+  %  read(Tamano),
+   % nl,
+   % write('Alfabeto ?'),
+   % read(Alfabeto),
+   % nl,
+   % write('Aceptadas ?'),	
+   % read(Aceptadas),
+   % nl,
+   % write('Rechazadas ?'),	
+   % read(Rechazadas),
+    %close(Str),
+   % cargarListaPalabra(Aceptadas,Alfabeto),
+    
     open('prueba',read,Str),
     read(Str,Tamano),
     read(Str,Alfabeto),
+    read(Str,Aceptadas),
     read(Str,Rechazadas),
     close(Str),
   
-    cargarListaPalabra(Aceptadas),
-    write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl.
+    cargarListaPalabra(Aceptadas,Alfabeto),
+    write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl,
+    factSopa(Alfabeto),
+    crea_tablero(Tablero,Tamano),
+    ver_diag(Tablero,Tamano,Aceptadas).
+		
 
-%open('prueba',read,Str),
-%	write('Tamano ?'),
-%	read(Tamano),
-%	nl,
-%	write('Alfabeto ?'),
-%	read(Alfabeto),
-%	nl,
-%	write('Aceptadas ?'),	
-%	read(Aceptadas),
-%	nl,
-%	write('Rechazadas ?'),	
-%	read(Rechazadas),
-%	%close(Str),
-%	cargarListaPalabra(Aceptadas,Alfabeto),
-%	% Hay que llamar a generar sopa 
-%	% El comando MAS o no 
-%	%read(Comando),
-	
-%	write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl.
+
+
+    % Hay que llamar a generar sopa 
+    % El comando MAS o no 
+    %read(Comando),
+
+    

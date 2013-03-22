@@ -114,13 +114,49 @@ factSopa([]).
 factSopa([H|T]):-
     assert(lista(H)),
     factSopa(T).
+ 
+crea_listaDiag(Entrada,Lista,Tam):-
+    N is (2 * Tam) - 1,
+    length(Lista,N),
+    lista_diagonales(Entrada,Lista,N),
+    !.
+
+lista_diagonales(_,_,0).
+lista_diagonales(Entrada,[H|T],Tam):-
+    Tam > 0,
+    N1 is Tam - 1,
+    diagonales(0,0,Tam,Entrada,H,Tam),
+    lista_diagonales(Entrada,T,N1).
+
+generaTablero(X,Tam):-
+    N is Tam * Tam,
+    length(X,N),
+    llenaFila(X,N).
+
+
+factSopa2([],[]).
+factSopa2([H|T],[H1|T1]):-
+    assert(lista2(H)),
+    H1 = lista2(H),
+    factSopa2(T,T1).
+
+imprime([]).
+imprime([H|T]):- 
+    write(H),
+    write(' '),
+    imprime(T).
+
+mostrarSopa(X,Y):-
+    imprime(X),
+    nl,
+    imprime(Y).
     
     
 main :- 
     open('prueba',read,Str),
     read(Str,Tamano),
     read(Str,Alfabeto),
-     read(Str,Rechazadas),
+    read(Str,Rechazadas),
     close(Str),
   
     cargarListaPalabra(Aceptadas),

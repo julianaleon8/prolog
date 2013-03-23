@@ -213,16 +213,16 @@ mas(no):-
 	nl,
 	write('Chao'),	
 	halt.
-verifica_e_imprime(Tablero,Acepta,Tamano,Recazadas):-
-	verificar_todo_acep(Tablero,Acepta,Tamano),
-	rechazar(Tablero,Rechazadas,Tamano),
-	mostrarSopa(Tablero). 
+verifica_e_imprime(Tablero,Acepta,Tamano,Rechazadas):-
+    verificar_todo_acep(Tablero,Acepta,Tamano),
+    rechazar(Tablero,Rechazadas,Tamano),
+    mostrarSopa(Tablero). 
 
-sopaLetra(Alfabeto,Tablero,Tamano,Aceptadas):-
+sopaLetra(Alfabeto,Tablero,Tamano,Aceptadas,Rechazadas):-
     
     factSopa(Alfabeto),
     crea_tablero(Tablero,Tamano),
-    verifica_e_imprime(Tablero,Aceptadas,Tamano).
+    verifica_e_imprime(Tablero,Aceptadas,Tamano,Rechazadas).
 
 main :-
     

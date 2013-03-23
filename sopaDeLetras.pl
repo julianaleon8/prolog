@@ -55,7 +55,7 @@ lista_columnas(Sopa,Lista):-
 
 % Esta es la que usaras para pegar las diagonales el resultado lo guarda en 5 argumento "Diagonal"
 % diagonales(0,0,2,[[a,b],[c,d]],X,2).
-diagonales(Tam,J,Tam,Sopa,[],N).
+diagonales(Tam,_,Tam,_,[],_).
 diagonales(I,Tam,Tam,Sopa,Diagonal,N):-
 	AuxI is I + 1,
 	diagonales(AuxI,0,Tam,Sopa,Diagonal,N).
@@ -117,7 +117,7 @@ sub_secuencia(_,[],_).
 sub_secuencia([S|Opa], [S|Labra],Palabra):-
 	sub_set(Opa,Labra,Palabra).
 
-sub_secuencia([S|Opa], H,Palabra):-
+sub_secuencia([_|Opa], H,Palabra):-
 	sub_secuencia(Opa,H,Palabra).
 sub_set(_,[],_).
 
@@ -125,8 +125,8 @@ sub_set([Y|YY],[Y|YS],Palabra):-
 
 	sub_set(YY,YS,Palabra).
 
-sub_set([S|SS],[L|Ls],P):-
-	sub_secuencia(SS,P,P).
+sub_set([_|SS],[_|_],P):-
+    sub_secuencia(SS,P,P).
 %sub_set([Y|Pa],Y,Palabra).
 
 % Llena una lista con todas las letras del alfabeto 
@@ -179,13 +179,16 @@ verifica_filas_rever(Y,[Ta|Blero]):-
 	(sub_secuencia(Ta,X,X);
 	    verifica_filas(X,Blero)).
 
-verificar_todo_acep(Tablero,[],Tam).
+verificar_todo_acep(_,[],_).
 verificar_todo_acep(Tablero,[A|Cepta],Tam):-
 	(verifica_filas(A,Tablero);
 	    verifica_columnas(A,Tablero);
 	    verifica_Diagonales(Tablero,A,Tam);
 	    verifica_Diagonales1(Tablero,A,Tam)),
 	    verificar_todo_acep(Tablero,Cepta,Tam).
+ 
+rechazar(Tablero,Rechazadas,Tam):-
+	not(verificar_todo_acep(Tablero,Rechazadas,Tam)).
 
 %verifica_palabra(PaLabra,Tablero,Tam,N):-
 %	NO is N +1, 
@@ -203,10 +206,17 @@ verificar_todo_acep(Tablero,[A|Cepta],Tam):-
   
 %%     cargarListaPalabra(Aceptadas),
 %%     write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl.
+mas(mas):-
+	fail.
 
-verifica_e_imprime(Tablero,Acepta,Tamano):-
-    verificar_todo_acep(Tablero,Acepta,Tamano),
-    mostrarSopa(Tablero). 
+mas(no):-
+	nl,
+	write('Chao'),	
+	halt.
+verifica_e_imprime(Tablero,Acepta,Tamano,Recazadas):-
+	verificar_todo_acep(Tablero,Acepta,Tamano),
+	rechazar(Tablero,Rechazadas,Tamano),
+	mostrarSopa(Tablero). 
 
 sopaLetra(Alfabeto,Tablero,Tamano,Aceptadas):-
     
@@ -224,11 +234,12 @@ main :-
     nl,
     write('Aceptadas ?'),	
     read(Aceptadas),
-    nl,
-    write('Rechazadas ?'),	
-    read(Rechazadas),
-    cargarListaPalabra(Aceptadas,Alfabeto,PalabrasAcep),
-    sopaLetra(Alfabeto,Tablero,Tamano,PalabrasAcep).
+	nl,
+	write('Rechazadas ?'),	
+	read(Rechazadas),
+	cargarListaPalabra(Aceptadas,Alfabeto,PalabrasAcep),
+	cargarListaPalabra(Rechazadas,Alfabeto,PalabrasRecha),
+	sopaLetra(Alfabeto,Tablero,Tamano,PalabrasAcep,PalabrasRecha).
 
 	%close(Str),
 	

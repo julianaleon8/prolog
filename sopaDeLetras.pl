@@ -28,7 +28,6 @@ pertenece_palabras([L|LS],Alfa):-
 cargarListaPalabra(Archivo,Alfa,Palabras):-
 	open(Archivo,read,Str1),
 	read(Str1,Palabras),
-	write([Palabras]), nl,
 	pertenece_palabras(Palabras,Alfa).
 
 crea_listaDiag1(Entrada,Lista,Tam):-
@@ -127,7 +126,6 @@ sub_set([Y|YY],[Y|YS],Palabra):-
 	sub_set(YY,YS,Palabra).
 
 sub_set([S|SS],[L|Ls],P):-
-	write(S),
 	sub_secuencia(SS,P,P).
 %sub_set([Y|Pa],Y,Palabra).
 

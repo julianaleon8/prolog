@@ -90,18 +90,15 @@ verifica_diago(Palabra,Tablero,Tam):-
 	verifica_Diagonales(Lista,Palabra).
 
 
-verifica_Diagonales(Lista,[Pa|Labras]):-
-	pertenece_palabras(Pa,Lista),
-	verigica_Diagonales(Lista,Labras).
+verifica_Diagonales(Tablero,Palabra,Tam):-
+	crea_listaDiag(Tablero,Lista,Tam),
+	verifica_filas(Palabra,Lista).
 	
 
 % verifica si la palabra esta en alguna de las columnas
-verifica_columnas(Y,[Ta|Blero]):-
-	lista_columnas([Ta|Blero],[L|Lista]),
-	atom_chars(Y,X),
-	(sub_secuencia(L,X,X);
-	    verifica_columnas(Y,Lista)).
-
+verifica_columnas(Y,Tablero):-
+	lista_columnas(Tablero,Lista),
+	verifica_filas(Y,Lista).
 % verifica si la palabra esta en algunas de las filas
 
 verifica_filas(Y,[Ta|Blero]):-
@@ -170,6 +167,13 @@ mostrarSopa(X,Y):-
     imprime(X),
     nl,
     imprime(Y).
+verificar_todo_acep(Tablero,[],Tam).
+verificar_todo_acep(Tablero,[A|Cepta],Tam):-
+	(verifica_filas(A,Tablero);
+	  verifica_columnas(A,Tablero);
+	  verifica_Diagonales(Tablero,A,Tam)),
+	verificar_todo_acep(Tablero,Cepta,Tam).
+
 %verifica_palabra(PaLabra,Tablero,Tam,N):-
 %	NO is N +1, 
 %	verifica_fila(Palabra,Tablero,NO),
@@ -177,32 +181,39 @@ mostrarSopa(X,Y):-
 
 %verificar_palabras(Palabras,Tablero)
     
-main :- 
-    open('prueba',read,Str),
-    read(Str,Tamano),
-    read(Str,Alfabeto),
-    read(Str,Rechazadas),
-    close(Str),
+%% main :- 
+%%     open('prueba',read,Str),
+%%     read(Str,Tamano),
+%%     read(Str,Alfabeto),
+%%     read(Str,Rechazadas),
+%%     close(Str),
   
-    cargarListaPalabra(Aceptadas),
-    write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl.
+%%     cargarListaPalabra(Aceptadas),
+%%     write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl.
 
-%open('prueba',read,Str),
-%	write('Tamano ?'),
-%	read(Tamano),
-%	nl,
-%	write('Alfabeto ?'),
-%	read(Alfabeto),
-%	nl,
-%	write('Aceptadas ?'),	
-%	read(Aceptadas),
-%	nl,
-%	write('Rechazadas ?'),	
-%	read(Rechazadas),
-%	%close(Str),
-%	cargarListaPalabra(Aceptadas,Alfabeto),
-%	% Hay que llamar a generar sopa 
-%	% El comando MAS o no 
-%	%read(Comando),
+main :-
+	open('prueba',read,Str),
+	write('Tamano ?'),
+	read(Tamano),
+	nl,
+	write('Alfabeto ?'),
+	read(Alfabeto),
+	nl,
+	write('Aceptadas ?'),	
+	read(Aceptadas),
+	nl,
+	write('Rechazadas ?'),	
+	read(Rechazadas),
+	%close(Str),
+	%cargarListaPalabra(Aceptadas,Alfabeto),
+	write('Introduzca Comando'),
+	read(Dato),
+	Dato = mas,
+	write('hola'),
+	fail.
+	%mas(Dato,X),
+	% Hay que llamar a generar sopa 
+	% El comando MAS o no 
+	%read(Comando),
 	
-%	write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl.
+	%write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl.

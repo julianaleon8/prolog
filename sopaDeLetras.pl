@@ -215,9 +215,10 @@ mas(mas):-
 	fail.
 
 mas(no):-
-	nl,
-	write('Chao'),	
-	halt.
+    nl,
+    write('Chao'),
+    nl,
+    halt.
 verifica_e_imprime(Tablero,Acepta,Tamano,Rechazadas):-
     verificar_todo_acep(Tablero,Acepta,Tamano),
     not(rechazar(Tablero,Rechazadas,Tamano)),

@@ -56,7 +56,7 @@ lista_columnas(Sopa,Lista):-
 
 % Esta es la que usaras para pegar las diagonales el resultado lo guarda en 5 argumento "Diagonal"
 % diagonales(0,0,2,[[a,b],[c,d]],X,2).
-diagonales(Tam,J,Tam,Sopa,[],N).
+diagonales(Tam,_,Tam,_,[],_).
 diagonales(I,Tam,Tam,Sopa,Diagonal,N):-
 	AuxI is I + 1,
 	diagonales(AuxI,0,Tam,Sopa,Diagonal,N).
@@ -118,7 +118,7 @@ sub_secuencia(_,[],_).
 sub_secuencia([S|Opa], [S|Labra],Palabra):-
 	sub_set(Opa,Labra,Palabra).
 
-sub_secuencia([S|Opa], H,Palabra):-
+sub_secuencia([_|Opa], H,Palabra):-
 	sub_secuencia(Opa,H,Palabra).
 sub_set(_,[],_).
 
@@ -126,8 +126,7 @@ sub_set([Y|YY],[Y|YS],Palabra):-
 	
 	sub_set(YY,YS,Palabra).
 
-sub_set([S|SS],[L|Ls],P):-
-	write(S),
+sub_set([_|SS],[_|_],P):-
 	sub_secuencia(SS,P,P).
 %sub_set([Y|Pa],Y,Palabra).
 	
@@ -180,13 +179,16 @@ verifica_filas_rever(Y,[Ta|Blero]):-
 	(sub_secuencia(Ta,X,X);
 	    verifica_filas(X,Blero)).
 
-verificar_todo_acep(Tablero,[],Tam).
+verificar_todo_acep(_,[],_).
 verificar_todo_acep(Tablero,[A|Cepta],Tam):-
 	(verifica_filas(A,Tablero);
 	    verifica_columnas(A,Tablero);
 	    verifica_Diagonales(Tablero,A,Tam);
 	    verifica_Diagonales1(Tablero,A,Tam)),
 	    verificar_todo_acep(Tablero,Cepta,Tam).
+ 
+rechazar(Tablero,Rechazadas,Tam):-
+	not(verificar_todo_acep(Tablero,Rechazadas,Tam)).
 
 %verifica_palabra(PaLabra,Tablero,Tam,N):-
 %	NO is N +1, 
@@ -204,8 +206,15 @@ verificar_todo_acep(Tablero,[A|Cepta],Tam):-
   
 %%     cargarListaPalabra(Aceptadas),
 %%     write([Tamano,Alfabeto,Aceptadas,Rechazadas]), nl.
+mas(mas):-
+	fail.
 
+mas(no):-
+	nl,
+	write('Chao'),	
+	halt.
 main :-
+
 	open('prueba',read,Str),
 	write('Tamano ?'),
 	read(Tamano),
@@ -220,11 +229,12 @@ main :-
 	read(Rechazadas),
 	%close(Str),
 	%cargarListaPalabra(Aceptadas,Alfabeto),
-	write('Introduzca Comando'),
+	write('Quiereas mas?'),
 	read(Dato),
-	Dato = mas,
-	write('hola'),
-	fail.
+	mas(Dato).
+	%Dato = mas,
+	%write('hola'),
+	%fail.
 	%mas(Dato,X),
 	% Hay que llamar a generar sopa 
 	% El comando MAS o no 

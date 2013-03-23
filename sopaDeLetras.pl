@@ -187,8 +187,13 @@ verificar_todo_acep(Tablero,[A|Cepta],Tam):-
 	    verifica_Diagonales1(Tablero,A,Tam)),
 	    verificar_todo_acep(Tablero,Cepta,Tam).
  
-rechazar(Tablero,Rechazadas,Tam):-
-	not(verificar_todo_acep(Tablero,Rechazadas,Tam)).
+rechazar(Tablero,[A|Cepta],Tam):-
+	(verifica_filas(A,Tablero);
+	    verifica_columnas(A,Tablero);
+	    verifica_Diagonales(Tablero,A,Tam);
+verifica_Diagonales1(Tablero,A,Tam));
+	    verificar_todo_acep(Tablero,Cepta,Tam).
+
 
 %verifica_palabra(PaLabra,Tablero,Tam,N):-
 %	NO is N +1, 
@@ -215,7 +220,7 @@ mas(no):-
 	halt.
 verifica_e_imprime(Tablero,Acepta,Tamano,Rechazadas):-
     verificar_todo_acep(Tablero,Acepta,Tamano),
-    rechazar(Tablero,Rechazadas,Tamano),
+    not(rechazar(Tablero,Rechazadas,Tamano)),
     mostrarSopa(Tablero). 
 
 sopaLetra(Alfabeto,Tablero,Tamano,Aceptadas,Rechazadas):-
@@ -223,7 +228,7 @@ sopaLetra(Alfabeto,Tablero,Tamano,Aceptadas,Rechazadas):-
     factSopa(Alfabeto),
     crea_tablero(Tablero,Tamano),
     verifica_e_imprime(Tablero,Aceptadas,Tamano,Rechazadas).
-
+    
 main :-
     
     write('Tamano ?'),
@@ -239,12 +244,15 @@ main :-
 	read(Rechazadas),
 	cargarListaPalabra(Aceptadas,Alfabeto,PalabrasAcep),
 	cargarListaPalabra(Rechazadas,Alfabeto,PalabrasRecha),
-	sopaLetra(Alfabeto,Tablero,Tamano,PalabrasAcep,PalabrasRecha).
-
+	sopaLetra(Alfabeto,Tablero,Tamano,PalabrasAcep,PalabrasRecha),
+    write('Quieres mas ?'),
+    read(Dato),
+    
+    mas(Dato).
 	%close(Str),
 	
-	%write('Introduzca Comando'),
-	%read(Dato),
+	%
+	%
 	%Dato = mas,
 	%write('hola'),
 	%fail.

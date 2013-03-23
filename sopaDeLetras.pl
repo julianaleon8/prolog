@@ -96,16 +96,18 @@ verifica_Diagonales(Lista,[Pa|Labras]):-
 	
 
 % verifica si la palabra esta en alguna de las columnas
-verifica_columnas(Palabra,Tablero):-
-	lista_columnas(Tablero,[L|Lista]),
-	(pertenece_palabras(Palabra,L);
-	verifica_columna(Palabra,Lista)).
+verifica_columnas(Y,[Ta|Blero]):-
+	lista_columnas([Ta|Blero],[L|Lista]),
+	atom_chars(Y,X),
+	(sub_secuencia(L,X,X);
+	    verifica_columnas(Y,Lista)).
 
 % verifica si la palabra esta en algunas de las filas
 
-verifica_filas(Palabra,[Ta|Blero]):-
-	(pertenece_palabras(Palabra,Ta);
-	verifica_fila(Palabra,Blero)).
+verifica_filas(Y,[Ta|Blero]):-
+	atom_chars(Y,X),
+	(sub_secuencia(Ta,X,X);
+	    verifica_filas(Y,Blero)).
 
 
 % Palabra es la lista de letras de la palabra
@@ -113,16 +115,19 @@ sub_secuencia(_,[],_).
 sub_secuencia([S|Opa], [S|Labra],Palabra):-
 	sub_set(Opa,Labra,Palabra).
 
-sub_secuencia([S|Opa], [Pala],Palabra):-
-	sub_set(Opa,Pala,Palabra).
+sub_secuencia([S|Opa], H,Palabra):-
+	sub_secuencia(Opa,H,Palabra).
 sub_set(_,[],_).
-sub_set([So|Pa],[L|Ls],Palabra):-
-	sub_secuencia(Pa,Palabra,Palabra).
 
-sub_set([L|Pa],[L|Ls],Palabra):-
-	sub_set(Pa,Ls,Palabra).
+sub_set([Y|YY],[Y|YS],Palabra):-
+	
+	sub_set(YY,YS,Palabra).
 
-
+sub_set([S|SS],[L|Ls],P):-
+	write(S),
+	sub_secuencia(SS,P,P).
+%sub_set([Y|Pa],Y,Palabra).
+	
 % Llena una lista con todas las letras del alfabeto 
 
 llenaFila([],_).
